@@ -2,6 +2,10 @@ from dataclasses import dataclass
 import numpy as np 
 import random
 
+KEY_SIZE = 4
+PUBLIC_KEY_EQUATIONS = 5
+MODULOS = 71
+
 @dataclass 
 class PrivateKey:
     vector: np.ndarray
@@ -55,8 +59,8 @@ def encrypt(public_key: PublicKey, bit: bool) -> Message:
     return Message(equation)
 
 def private_key_gen() -> PrivateKey:
-    mod = 71
-    size = 4
+    mod = MODULOS
+    size = KEY_SIZE
     vector = np.random.randint(0, mod, size)
     return PrivateKey(vector, mod, size)
 
