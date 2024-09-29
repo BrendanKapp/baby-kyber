@@ -2,10 +2,6 @@ from dataclasses import dataclass
 import numpy as np 
 import random
 
-# some sort of struct for a system of equations (Public Key)
-
-# a struct for a solution (Private Key)
-
 @dataclass 
 class PrivateKey:
     vector: np.ndarray
@@ -64,20 +60,20 @@ def private_key_gen() -> PrivateKey:
     return PrivateKey(vector, mod, size)
 
 def public_key_gen(private_key: PrivateKey) -> PublicKey:
-    # generate random polynommials 
-    # calculate result 
-    # mod 
-    # add error 
     count = 10
     mod = private_key.mod
     size = private_key.size + 1
     shape = (count, size)
+    # generate random polynommials 
     equations = np.random.randint(0, mod, shape)
+    # calculate sum 
     for i in range(0, count):
         sum = 0
         for j in range(0, size - 1):
             sum += equations[i, j] * private_key.vector[j]
+        # add error 
         distance = random.randint(-3, 3)
+        # mod
         equations[i, size - 1] = (sum + distance) % mod
     return PublicKey(equations, mod, size, count)
 
