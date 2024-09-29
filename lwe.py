@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from re import X
 import numpy as np 
 import random
 
@@ -20,13 +21,14 @@ class Message:
     equation: np.ndarray
 
 def decrypt(private_key: PrivateKey, message: Message) -> bool:
-    # plug in private values into the message and compare with half mod or 0
+    # plug in private values into the message equation
     value = 0
     for i in range(0, private_key.size):
         value += (message.equation[i] * private_key.vector[i])
     value = value % private_key.mod
     encrypted_value = message.equation[private_key.size]
     distance = abs(value - encrypted_value) % private_key.mod
+    # compare distance to center to calculate bit value
     center = private_key.mod // 2
     lower_bound = center - (center // 2)
     upper_bound = center + (center // 2) 
@@ -90,5 +92,6 @@ def main():
             print("Failed on try:", i)
             return
 
-main()
+if __name__ == "__main__":
+    main()
 
