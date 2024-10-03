@@ -94,6 +94,7 @@ def main():
         if not result:
             print("Failed on try:", i)
             return
+    print("Success")
 
 if __name__ == "__main__":
     main()
